@@ -25,8 +25,8 @@ public abstract class PlayerEntityMixin {
 
         this.totalExperience = MathHelper.clamp(this.totalExperience + experience, 0, Integer.MAX_VALUE);
         this.experienceLevel = 0;
-        this.addExperienceLevels(Utils.getLevelFromExperience(this.totalExperience));
-        int deltaExperience = this.totalExperience - Utils.getExperienceToLevel(this.experienceLevel);
+        this.addExperienceLevels(Utils.getLevelFromXp(this.totalExperience));
+        int deltaExperience = this.totalExperience - Utils.getTotalXpForLevel(this.experienceLevel);
         this.experienceProgress = deltaExperience / (float)this.getNextLevelExperience();
 
         ci.cancel();

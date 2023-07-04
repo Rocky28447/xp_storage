@@ -16,12 +16,12 @@ class XpAmountComponent implements ExperienceComponent {
     @Override
     public void setAmount(final int amount) {
         this.amount = amount;
-        this.level = Utils.getLevelFromExperience(amount);
+        this.level = Utils.getLevelFromXp(amount);
     }
 
     @Override
     public void setLevel(final int level) {
-        this.amount = Utils.getExperienceToLevel(level);
+        this.amount = Utils.getTotalXpForLevel(level);
         this.level = level;
     }
 

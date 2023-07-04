@@ -6,8 +6,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = "cosmetic")
 public class CosmeticConfig implements ConfigData {
-    public boolean bookTooltip = false;
-
     public boolean bottleTooltip = true;
 
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)

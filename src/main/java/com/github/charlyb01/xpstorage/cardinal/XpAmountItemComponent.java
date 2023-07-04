@@ -22,12 +22,12 @@ class XpAmountItemComponent extends ItemComponent implements ExperienceComponent
     @Override
     public void setAmount(final int amount) {
         this.putInt("xp_amount", amount);
-        this.putInt("xp_level", Utils.getLevelFromExperience(amount));
+        this.putInt("xp_level", Utils.getLevelFromXp(amount));
     }
 
     @Override
     public void setLevel(final int level) {
-        this.putInt("xp_amount", Utils.getExperienceToLevel(level));
+        this.putInt("xp_amount", Utils.getTotalXpForLevel(level));
         this.putInt("xp_level", level);
     }
 
