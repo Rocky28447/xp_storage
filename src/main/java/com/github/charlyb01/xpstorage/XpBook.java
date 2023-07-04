@@ -27,14 +27,14 @@ public class XpBook extends Item {
 
         this.maxLevel = maxLevel;
         this.maxExperience = getTotalXpForLevel(maxLevel);
-        this.xpPenalty = penalty / 100.0f;
+        this.xpPenalty = penalty;
     }
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         int bookExperience = MyComponents.XP_COMPONENT.get(stack).getAmount();
         tooltip.add(Text.translatable("item.xp_storage.xp_books.advanced_tooltip", bookExperience, maxExperience)
-                .formatted(Formatting.GRAY).formatted(Formatting.ITALIC));
+                .formatted(Formatting.GRAY));
     }
 
     @Override
@@ -68,7 +68,6 @@ public class XpBook extends Item {
         int playerLevel = player.experienceLevel;
 
         if (world.isClient) {
-            // Play sound when filling
             if (player.isSneaking() && bookXp > 0) {
                 player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
             }
@@ -78,17 +77,13 @@ public class XpBook extends Item {
             int xp = 0;
 
             if (player.isSneaking()) { // Withdrawal
-                int desiredXpWithdrawal = getXpBetweenLevels(playerLevel, playerLevel + 1);
-                if (getExtraPlayerXp(player) > 0) {
-                    desiredXpWithdrawal -= getExtraPlayerXp(player);
-                }
-
+                int desiredXpWithdrawal = getXpBetweenLevels(playerLevel, playerLevel + 1) - getExtraPlayerXp(player);
                 float actualXpWithdrawal = Math.min(desiredXpWithdrawal / xpPenalty, bookXp);
-                xp = -Math.round(actualXpWithdrawal);
-                setPlayerXp(player, playerXp + (int)(actualXpWithdrawal * xpPenalty));
+                setPlayerXp(player, playerXp + Math.round(actualXpWithdrawal * xpPenalty));
                 if (player.experienceLevel < playerLevel + 1 && getPlayerXp(player) >= getTotalXpForLevel(playerLevel + 1)) {
                     setPlayerLevel(player, playerLevel + 1);
                 }
+                xp = -Math.round(actualXpWithdrawal);
             } else { // Deposit
                 if (getExtraPlayerXp(player) > 0) {
                     xp = Math.min(getExtraPlayerXp(player), maxExperience - bookXp);

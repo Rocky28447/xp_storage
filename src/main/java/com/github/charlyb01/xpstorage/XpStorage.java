@@ -6,12 +6,11 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
-public class Xpstorage implements ModInitializer {
+public class XpStorage implements ModInitializer {
     public final String MOD_ID = "xp_storage";
 
     public static final Item CRYSTALLIZED_LAPIS = new Item(new Item.Settings());
@@ -23,9 +22,9 @@ public class Xpstorage implements ModInitializer {
     public void onInitialize() {
         AutoConfig.register(ModConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
 
-        xp_book1 = new XpBook(ModConfig.get().books.book1.capacity, false, Rarity.COMMON, ModConfig.get().books.book1.xpFromUsing);
-        xp_book2 = new XpBook(ModConfig.get().books.book2.capacity, true, Rarity.UNCOMMON, ModConfig.get().books.book2.xpFromUsing);
-        xp_book3 = new XpBook(ModConfig.get().books.book3.capacity, true, Rarity.RARE, ModConfig.get().books.book3.xpFromUsing);
+        xp_book1 = new XpBook(ModConfig.get().books.book1.levelCapacity, false, Rarity.COMMON, ModConfig.get().books.book1.xpReturnPercent);
+        xp_book2 = new XpBook(ModConfig.get().books.book2.levelCapacity, true, Rarity.UNCOMMON, ModConfig.get().books.book2.xpReturnPercent);
+        xp_book3 = new XpBook(ModConfig.get().books.book3.levelCapacity, true, Rarity.RARE, ModConfig.get().books.book3.xpReturnPercent);
 
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "crystallized_lapis"), CRYSTALLIZED_LAPIS);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "xp_book"), xp_book1);

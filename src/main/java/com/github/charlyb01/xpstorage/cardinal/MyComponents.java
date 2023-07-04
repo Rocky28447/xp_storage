@@ -1,6 +1,6 @@
 package com.github.charlyb01.xpstorage.cardinal;
 
-import com.github.charlyb01.xpstorage.Xpstorage;
+import com.github.charlyb01.xpstorage.XpStorage;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
@@ -23,8 +23,8 @@ public final class MyComponents implements EntityComponentInitializer, ItemCompo
     @Override
     public void registerItemComponentFactories(ItemComponentFactoryRegistry registry) {
         registry.register(Items.EXPERIENCE_BOTTLE, XP_COMPONENT, XpAmountItemComponent::new);
-        registry.register(Xpstorage.xp_book1, XP_COMPONENT, XpAmountItemComponent::new);
-        registry.register(Xpstorage.xp_book2, XP_COMPONENT, XpAmountItemComponent::new);
-        registry.register(Xpstorage.xp_book3, XP_COMPONENT, XpAmountItemComponent::new);
+        registry.register(XpStorage.xp_book1, XP_COMPONENT, XpAmountItemComponent::new);
+        registry.register(XpStorage.xp_book2, XP_COMPONENT, XpAmountItemComponent::new);
+        registry.register(XpStorage.xp_book3, XP_COMPONENT, XpAmountItemComponent::new);
     }
 }
