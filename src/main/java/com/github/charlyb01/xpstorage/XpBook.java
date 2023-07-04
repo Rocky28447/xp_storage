@@ -69,7 +69,7 @@ public class XpBook extends Item {
 
         if (world.isClient) {
             // Play sound when filling
-            if (!player.isSneaking() && playerXp > 0 && bookXp < maxExperience) {
+            if (player.isSneaking() && bookXp > 0) {
                 player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
             }
         } else {
