@@ -72,35 +72,26 @@ public class XpBook extends Item {
                 player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
             }
         } else {
-            // Lines 78 - 106 adapted from XpContainerItem.java, Team CoFH 2023
-            // https://github.com/CoFH/CoFHCore/blob/1.19.x/src/main/java/cofh/core/item/XpContainerItem.java
-            int xp = 0;
+            int addBookXp = 0;
+            int addPlayerXp = 0;
 
             if (player.isSneaking()) { // Withdrawal
                 int desiredXpWithdrawal = getXpBetweenLevels(playerLevel, playerLevel + 1) - getExtraPlayerXp(player);
                 float actualXpWithdrawal = Math.min(desiredXpWithdrawal / xpPenalty, bookXp);
-                setPlayerXp(player, playerXp + Math.round(actualXpWithdrawal * xpPenalty));
-                if (player.experienceLevel < playerLevel + 1 && getPlayerXp(player) >= getTotalXpForLevel(playerLevel + 1)) {
-                    setPlayerLevel(player, playerLevel + 1);
-                }
-                xp = -Math.round(actualXpWithdrawal);
+                addBookXp = -Math.round(actualXpWithdrawal);
+                addPlayerXp = Math.round(actualXpWithdrawal * xpPenalty);
             } else { // Deposit
                 if (getExtraPlayerXp(player) > 0) {
-                    xp = Math.min(getExtraPlayerXp(player), maxExperience - bookXp);
-                    setPlayerXp(player, getPlayerXp(player) - xp);
-                    if (player.experienceLevel < playerLevel) {
-                        setPlayerLevel(player, playerLevel);
-                    }
+                    addBookXp = Math.min(getExtraPlayerXp(player), maxExperience - bookXp);
+                    addPlayerXp = -addBookXp;
                 } else if (player.experienceLevel > 0) {
-                    xp = Math.min(getXpBetweenLevels(player.experienceLevel - 1, player.experienceLevel), maxExperience - bookXp);
-                    setPlayerXp(player, getPlayerXp(player) - xp);
-                    if (player.experienceLevel < playerLevel - 1) {
-                        setPlayerLevel(player, playerLevel - 1);
-                    }
+                    addBookXp = Math.min(getXpBetweenLevels(player.experienceLevel - 1, player.experienceLevel), maxExperience - bookXp);
+                    addPlayerXp = -addBookXp;
                 }
             }
 
-            MyComponents.XP_COMPONENT.get(stack).setAmount(bookXp + xp);
+            player.addExperience(addPlayerXp);
+            MyComponents.XP_COMPONENT.get(stack).setAmount(bookXp + addBookXp);
         }
 
         return new TypedActionResult<>(ActionResult.SUCCESS, player.getStackInHand(hand));
