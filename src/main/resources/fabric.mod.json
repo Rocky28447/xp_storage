@@ -29,7 +29,9 @@
       "com.github.charlyb01.xpstorage.config.ModMenuIntegration"
     ]
   },
-  "mixins": [],
+  "mixins": [
+    "xpstorage.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*"
